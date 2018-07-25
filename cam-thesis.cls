@@ -93,6 +93,12 @@
 \newif\ifcam@backrefs\cam@backrefsfalse
 \DeclareOption{backrefs}{\cam@backrefstrue}
 
+% compilemark - adds a watermark with the compilation date and time on each page
+%
+% Put a date down the side of the page.
+\newif\ifcam@compilemark\cam@compilemarkfalse
+\DeclareOption{compilemark}{\cam@compilemarktrue}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -165,6 +171,26 @@
         \renewcommand{\glossarypreamble}{\thispagestyle{empty}}%
         \printthesisglossary%
     }
+\fi
+
+% Include the watermark
+\ifcam@compilemark
+  \RequirePackage[
+    useregional=numeric,
+    showseconds=false,
+    showzone=false
+  ]{datetime2}
+  \RequirePackage[
+    placement=bottom,
+    angle=0,
+    color=black,
+    scale=1,
+    vshift=1cm
+  ]{background}
+  \newcommand{\compilemarkcontents}{%
+    Compiled \DTMnow{}.
+  }
+  \backgroundsetup{contents={\compilemarkcontents}}
 \fi
 
 
